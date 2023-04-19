@@ -36,12 +36,12 @@ Yolov7-tiny | https://github.com/bubbliiiiing/yolov7-tiny-keras
 
 ## Performance
 | training dataset | weight file name | test dataset | input image size | mAP 0.5:0.95 | mAP 0.5 |
-| :-----: | :-----: | :------: | :------: | :------: | :----- : |
-| VOC07+12+COCO | [yolov4_tiny_weights_voc.h5](https://github.com/bubbliiiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc.h5) | VOC-Test07 | 416x416 | - | 77.5
-| VOC07+12+COCO | [yolov4_tiny_weights_voc_SE.h5](https://github.com/bubbliiiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_SE.h5) | VOC-Test07 | 416x416 | - | 78.6
-| VOC07+12+COCO | [yolov4_tiny_weights_voc_CBAM.h5](https://github.com/bubbliiiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_CBAM.h5) | VOC-Test07 | 416x416 | - | 78.9
-| VOC07+12+COCO | [yolov4_tiny_weights_voc_ECA.h5](https://github.com/bubbliiiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_ECA.h5) | VOC-Test07 | 416x416 | - | 78.2
-| COCO-Train2017 | [yolov4_tiny_weights_coco.h5](https://github.com/bubbliiiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_coco.h5) | COCO-Val2017 | 416x416 | 21.8 | 41.3
+| :-----: | :-----: | :------: | :------: | :------: | :-----: |
+| VOC07+12+COCO | [yolov4_tiny_weights_voc.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc.h5) | VOC-Test07 | 416x416 | - | 77.5
+| VOC07+12+COCO | [yolov4_tiny_weights_voc_SE.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_SE.h5) | VOC-Test07 | 416x416 | - | 78.6
+| VOC07+12+COCO | [yolov4_tiny_weights_voc_CBAM.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_CBAM.h5) | VOC-Test07 | 416x416 | - | 78.9
+| VOC07+12+COCO | [yolov4_tiny_weights_voc_ECA.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_ECA.h5) | VOC-Test07 | 416x416 | - | 78.2
+| COCO-Train2017 | [yolov4_tiny_weights_coco.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_coco.h5) | COCO-Val2017 | 416x416 | 21.8 | 41.3
 
 ## required environment
 tensorflow-gpu==1.13.1
