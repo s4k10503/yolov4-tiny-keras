@@ -165,5 +165,3 @@ def DecodeBox(outputs, anchors, num_classes, image_shape, input_shape, anchor_ma
     classes_out    = K.concatenate(classes_out, axis=0)
 
     return boxes_out, scores_out, classes_out
-
-
