@@ -84,7 +84,6 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, calc_loss=F
     
     # ボックスの信頼度とクラス確率を計算。出力はシグモイド関数を経て[0,1]に正規化される
     box_confidence = K.sigmoid(feats[..., 4:5])
-    box_confidence  = K.sigmoid(feats[..., 4:5])
     box_class_probs = K.sigmoid(feats[..., 5:])
     
     # ロスを計算する場合は、その他の中間出力とともに、ボックスの中心座標と幅・高さを返す
