@@ -15,11 +15,11 @@ def yolo_correct_boxes(box_xy, box_wh, input_shape, image_shape, letterbox_image
     Returns:
         boxes (tensor): 修正されたバウンディングボックス。
     """
-    
+
     # box_xyとbox_whを縦横反転
     box_yx = box_xy[..., ::-1]
     box_hw = box_wh[..., ::-1]
-    
+
     # input_shapeとimage_shapeをbox_yxと同じデータ型に変換
     input_shape = K.cast(input_shape, K.dtype(box_yx))
     image_shape = K.cast(image_shape, K.dtype(box_yx))
@@ -27,7 +27,7 @@ def yolo_correct_boxes(box_xy, box_wh, input_shape, image_shape, letterbox_image
     if letterbox_image:
         # 画像の実際の形状と入力形状との比率を計算し、新しい形状を決定
         new_shape = K.round(image_shape * K.min(input_shape/image_shape))
-        
+
         # オフセットは画像の有効領域が画像の左上隅からどれだけずれているかを示す
         offset  = (input_shape - new_shape)/2./input_shape
         scale   = input_shape/new_shape
@@ -60,12 +60,12 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, calc_loss=F
         tuple: calc_lossがTrueの場合、グリッド、特徴、ボックスの座標、ボックスの形状。
                calc_lossがFalseの場合、ボックスの座標、ボックスの形状、ボックスの信頼度、クラス確率。
     """
-    
+
     num_anchors = len(anchors)
-    
+
     # 特徴マップの縦と横のサイズを取得
     grid_shape = K.shape(feats)[1:3]
-    
+
     # それぞれの特徴マップのグリッド点に対する座標を取得
     grid_x  = K.tile(K.reshape(K.arange(0, stop=grid_shape[1]), [1, -1, 1, 1]), [grid_shape[0], 1, num_anchors, 1])
     grid_y  = K.tile(K.reshape(K.arange(0, stop=grid_shape[0]), [-1, 1, 1, 1]), [1, grid_shape[1], num_anchors, 1])
@@ -81,11 +81,11 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, calc_loss=F
     # ボックスの中心座標と幅・高さを計算。出力はシグモイド関数を経て[0,1]に正規化され、その後座標やアンカーサイズに応じてスケールが変更される
     box_xy          = (K.sigmoid(feats[..., :2]) + grid) / K.cast(grid_shape[::-1], K.dtype(feats))
     box_wh          = K.exp(feats[..., 2:4]) * anchors_tensor / K.cast(input_shape[::-1], K.dtype(feats))
-    
+
     # ボックスの信頼度とクラス確率を計算。出力はシグモイド関数を経て[0,1]に正規化される
     box_confidence = K.sigmoid(feats[..., 4:5])
     box_class_probs = K.sigmoid(feats[..., 5:])
-    
+
     # ロスを計算する場合は、その他の中間出力とともに、ボックスの中心座標と幅・高さを返す
     # 予測を行う場合は、ボックスの中心座標と幅・高さ、信頼度、クラス確率を返す
     if calc_loss == True:
@@ -114,7 +114,7 @@ def DecodeBox(outputs, anchors, num_classes, image_shape, input_shape, anchor_ma
         scores_out (tensor): スコアのリスト。
         classes_out (tensor): クラスのリスト。
     """
-    
+
     # アンカーボックスを取得し、バウンディングボックスの座標とサイズ、信頼度、クラス確率を計算
     box_xy = []
     box_wh = []
@@ -126,7 +126,7 @@ def DecodeBox(outputs, anchors, num_classes, image_shape, input_shape, anchor_ma
         box_wh.append(K.reshape(sub_box_wh, [-1, 2]))
         box_confidence.append(K.reshape(sub_box_confidence, [-1, 1]))
         box_class_probs.append(K.reshape(sub_box_class_probs, [-1, num_classes]))
-        
+
     box_xy          = K.concatenate(box_xy, axis=0)
     box_wh          = K.concatenate(box_wh, axis=0)
     box_confidence  = K.concatenate(box_confidence, axis=0)
@@ -134,14 +134,14 @@ def DecodeBox(outputs, anchors, num_classes, image_shape, input_shape, anchor_ma
 
     # バウンディングボックスの座標とサイズを実際のピクセル値に変換
     boxes       = yolo_correct_boxes(box_xy, box_wh, input_shape, image_shape, letterbox_image)
-    
+
     # バウンディングボックスの信頼度とクラス確率を掛け合わせて、最終的なクラススコアを計算
     box_scores  = box_confidence * box_class_probs
 
     # スコアが指定したconfidence以下のバウンディングボックスをマスク
     mask             = box_scores >= confidence
     max_boxes_tensor = K.constant(max_boxes, dtype='int32')
-    
+
     # クラスごとにバウンディングボックスを選択し、非最大抑制(NMS)を実施
     boxes_out   = []
     scores_out  = []
